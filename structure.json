@@ -1,0 +1,27 @@
+{
+  "collections": {
+    "users": {
+      "fields": {
+        "posts": "relationship with posts collection",
+        "liked": "relationship with posts",
+        "name": "string",
+        "enail": "email",
+        "save": "relationship with saves collection"
+      }
+    },
+    "posts": {
+      "fields": {
+        "creator": "relationship with users collection",
+        "likes": "relationship with users collection",
+        "caption": "string",
+        "save": "relationship with saves collection"
+      }
+    },
+    "saves": {
+      "fields": {
+        "user": "relationship with users collection",
+        "post": "relationship with posts collection"
+      }
+    }
+  }
+}
