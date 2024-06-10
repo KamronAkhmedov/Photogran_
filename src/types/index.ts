@@ -42,15 +42,15 @@ export type IRecentPost = {
 };
 
 export type IPost = {
-  creator: string;
-  postId: string
-  caption: string;
+  creator?: string;
+  postId?: string
+  caption?: string;
   location?: string;
   tags?: [];
-  imagePath: string
-  imageUrl: string,
-  likes: string[],
-  createdAt: {
+  imagePath?: string
+  imageUrl?: string,
+  likes?: string[],
+  createdAt?: {
     nanoseconds: number,
     seconds: number
   },

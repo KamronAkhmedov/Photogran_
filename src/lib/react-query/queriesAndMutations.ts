@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePosts, getLikedPosts, getPostById, getRecentPosts, getSavedPosts, getUser, getUsers, getUsersPosts, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost, updateUser } from "../firebase/api"
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types"
 import { QUERY_KEYS } from "./queryKeys"
@@ -137,7 +137,7 @@ export const useUpdatePost = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (post: IUpdatePost) => updatePost(post),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_POST_BY_ID]
       })
@@ -158,17 +158,18 @@ export const useDeletePost = () => {
 }
 
 export const useGetPosts = () => {
-  return useInfiniteQuery<DocumentData[], Error>({
+  return useInfiniteQuery<DocumentData[], Error, InfiniteData<DocumentData[], unknown>, QUERY_KEYS[]>({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
     queryFn: getInfinitePosts,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage: DocumentData[]) => {
       if (!lastPage || lastPage.length === 0) {
-        return null;
+        return undefined;
       }
       const lastDoc = lastPage[lastPage.length - 1];
-      return lastDoc.createdAt;
-
+      const createdAt = lastDoc.createdAt
+      return createdAt
     },
+    initialPageParam: undefined
   });
 };
 

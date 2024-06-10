@@ -1,17 +1,14 @@
 import { DocumentData } from 'firebase/firestore'
-import Loader from './Loader'
 import GridPostList from './GridPostList'
+import PokemonLoader from './PokemonLoader'
 
 type searchedPostsProps = {
   isSearchFetching: boolean
-  searchedPosts: DocumentData[]
+  searchedPosts: DocumentData | undefined
 }
 
 const SearchResults = ({ isSearchFetching, searchedPosts }: searchedPostsProps) => {
-  if (isSearchFetching) return <Loader />
-
-  console.log(searchedPosts);
-
+  if (isSearchFetching) return <PokemonLoader />
 
   if (searchedPosts && searchedPosts.length > 0) {
     return (

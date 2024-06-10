@@ -3,6 +3,7 @@ import { INewPost, INewUser, IUpdatePost, IUpdateUser, UserData } from "@/types"
 import { auth, db, storage } from "./config";
 import { DocumentData, collection, doc, getDoc, getDocs, getFirestore, limit, orderBy, query, startAfter, where } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { QueryFunctionContext } from "@tanstack/react-query";
 
 // ================== CREATE USER ACCOUNT
 export async function createUserAccount(user: INewUser) {
@@ -288,7 +289,7 @@ export async function getSavedPosts(userId: string) {
 
     const savedPosts: DocumentData[] = []
     savedPostsSnapshots.forEach(doc => {
-      if (doc.exists) {
+      if (doc && doc.exists) {
         savedPosts.push({ postId: doc.id, ...doc.data() })
       }
     })
@@ -412,7 +413,7 @@ export async function deletePost(postId: string, imagePath: string) {
 }
 
 
-export async function getInfinitePosts({ pageParam }: { pageParam: number | null }) {
+export async function getInfinitePosts({ pageParam }: QueryFunctionContext) {
   let postsQuery = query(
     collection(db, 'posts'),
     orderBy('createdAt', 'desc'),
@@ -430,7 +431,7 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number | null
 
   try {
     const querySnapshot = await getDocs(postsQuery)
-    const posts: DocumentData[] = querySnapshot.docs.map(doc => ({ postId: doc.id, ...doc.data() }))
+    const posts: DocumentData[] = querySnapshot.docs.map(doc => ({ ...doc.data(), postId: doc.id }))
 
     return posts
   } catch (error) {

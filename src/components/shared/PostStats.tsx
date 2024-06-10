@@ -3,7 +3,6 @@ import { useDeleteSavedPost, useLikePost, useSavePost } from '@/lib/react-query/
 import { checkIsLiked } from '@/lib/utils'
 import { DocumentData } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import Loader from './Loader'
 
 type PostStatsProps = {
   post?: DocumentData,
@@ -21,7 +20,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   // QUERIES
   const { mutate: likePost } = useLikePost()
   const { mutate: savePost } = useSavePost()
-  const { mutate: deleteSavedPost, isPending } = useDeleteSavedPost()
+  const { mutate: deleteSavedPost } = useDeleteSavedPost()
 
   hasUserSavedPost(userId, post?.postId || '').then((e) => {
     setIsSaved(!!e)

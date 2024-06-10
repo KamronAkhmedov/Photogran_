@@ -5,7 +5,6 @@ import { INavLink } from '@/types'
 import React from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '../ui/button'
-import Loader from './Loader'
 import MyLoader from './ContentLoader'
 
 const LeftSidebar = () => {

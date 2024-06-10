@@ -5,6 +5,7 @@ import SearchResults from '@/components/shared/SearchResults'
 import { Input } from '@/components/ui/input'
 import useDebounce from '@/hooks/useDebounce'
 import { useGetPosts, useSearchPosts } from '@/lib/react-query/queriesAndMutations'
+import { DocumentData } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
@@ -28,8 +29,11 @@ const Explore = () => {
     )
   }
 
+  console.log(posts);
+
+
   const showSearchResults = searchValue !== ''
-  const showPosts = !showSearchResults && posts?.pages.every((item) => item[0].length === 0)
+  const showPosts = !showSearchResults && (posts as DocumentData)?.pages.every((item: string[]) => item[0].length === 0)
 
   return (
     <div className='explore-container'>

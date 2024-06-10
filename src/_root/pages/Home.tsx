@@ -17,7 +17,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         if (posts) {
-          const promises = posts.map(async (post) => {
+          const promises = posts.map(async (post: IRecentPost) => {
 
             const userData = await getUser(post.creator)
 

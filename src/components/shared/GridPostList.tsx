@@ -1,13 +1,13 @@
 import { useUserContext } from '@/context/AuthContext'
 import { db } from '@/lib/firebase/config'
 import { DocumentData, doc, getDoc } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Loader from './Loader'
 import PostStats from './PostStats'
+import { IPost } from '@/types'
 
 type Propsdata = {
-  posts: DocumentData[]
+  posts: DocumentData
   showUser?: boolean
   showStats?: boolean
   showPostLength?: boolean
@@ -20,7 +20,7 @@ const GridPostList = ({ posts, showUser = true, showStats = true, showPostLength
 
   useEffect(() => {
     const fetchUsersData = async () => {
-      const userDataPromises = posts.map(async (post) => {
+      const userDataPromises = posts.map(async (post: DocumentData) => {
         const userDocRef = doc(db, 'users', post.creator)
         const userDocSnapshot = await getDoc(userDocRef)
         return userDocSnapshot.data()
@@ -41,7 +41,6 @@ const GridPostList = ({ posts, showUser = true, showStats = true, showPostLength
             <img
               src="/assets/icons/noPost.svg"
               alt="No post"
-              className=''
               width={50}
             />
             <p className='h2-bold text-center'>
@@ -63,7 +62,7 @@ const GridPostList = ({ posts, showUser = true, showStats = true, showPostLength
         </p>
       )}
       <ul className='grid-container'>
-        {posts.map((post, index) =>
+        {posts.map((post: IPost, index: number) =>
           <li key={post.postId} className='relative min-w-80 h-80 hover:scale-105 transition duration-300'>
             <Link to={`/posts/${post.postId}`} className='grid-post_link'>
               <img src={post.imageUrl} className='h-full w-full object-cover' />
