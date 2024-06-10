@@ -82,7 +82,7 @@ const Home = () => {
             <PokemonLoader />
           ) : (
             <ul className="flex flex-1 flex-col gap-9 w-full">
-              {post?.map(post => (
+              {post?.map((post: IRecentPost) => (
                 <PostCard post={post} key={post.postId} />
               ))}
             </ul>

@@ -81,7 +81,7 @@ const Explore = () => {
             <p className='text-light-4 mt-10 text-center w-full'>
               There is no any posts
             </p>
-          ) : posts?.pages.map((item, index) => (
+          ) : (posts ?? [])?.pages.map((item, index) => (
             <GridPostList key={`page-${index} `} posts={item} showInfo={false} />
           ))}
         </div>

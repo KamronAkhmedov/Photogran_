@@ -441,7 +441,7 @@ export async function getInfinitePosts({ pageParam }: QueryFunctionContext) {
 }
 
 // ================== SEARCH POSTS
-export async function searchPosts(searchTerm: string): Promise<DocumentData | undefined> {
+export async function searchPosts(searchTerm: string): Promise<DocumentData[] | undefined> {
   try {
     const postQuery = query(
       collection(db, 'posts'),
@@ -503,19 +503,24 @@ export async function getUsersPosts(userId: string) {
 }
 
 // ================== GET LIKED POSTS
-export async function getLikedPosts(userId: string) {
+export async function getLikedPosts(userId: string): Promise<DocumentData[]> {
   try {
     const docRef = db.collection('posts')
     const querySNapshot = await docRef.where('likes', 'array-contains', userId).get()
+
+    if (querySNapshot.empty) {
+      return []
+    }
+
     const posts = querySNapshot.docs.map(doc => ({
       postId: doc.id,
       ...doc.data()
-    }))
+    })) as DocumentData[]
 
     return posts
   } catch (error) {
     console.error('failed get liked posts', error);
-
+    return []
   }
 }
 

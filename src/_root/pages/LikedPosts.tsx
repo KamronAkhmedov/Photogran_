@@ -1,9 +1,10 @@
 import GridPostList from '@/components/shared/GridPostList'
 import PokemonLoader from '@/components/shared/PokemonLoader'
 import { useGetLikedPosts } from '@/lib/react-query/queriesAndMutations'
+import { DocumentData } from 'firebase/firestore'
 
 const LikedPosts = ({ userId }: { userId: string }) => {
-  const { data: posts, isLoading } = useGetLikedPosts(userId)
+  const { data: posts = [], isLoading } = useGetLikedPosts(userId)
 
   if (isLoading) {
     return (
@@ -13,10 +14,11 @@ const LikedPosts = ({ userId }: { userId: string }) => {
     )
   }
 
+  const documentPosts: DocumentData[] = posts
+
   return (
     <>
-
-      <GridPostList posts={posts} showStats={false} />
+      <GridPostList posts={documentPosts} showStats={false} />
     </>
   )
 }
