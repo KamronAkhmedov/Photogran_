@@ -30,7 +30,7 @@ const PostDetails = () => {
 
   const handleDeletePost = () => {
     deletePost({ postId: id, imagePath: post?.imagePath })
-    navigate(-1)
+    navigate('/')
   }
 
   return (
