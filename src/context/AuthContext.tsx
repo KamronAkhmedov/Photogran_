@@ -61,16 +61,21 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   useEffect(() => {
-    const localData = localStorage.getItem('isUserActive')
-    if (
-      localData === 'false'
-    ) {
-      navigate('/sign-in')
-    } else {
-      navigate('/')
+
+    const checkAuthAndNavigate = async () => {
+      const localData = localStorage.getItem('isUserActive')
+      const isAuth = await checkAuthUser()
+
+      if (localData === 'false' || !isAuth) {
+        navigate('/sign-in')
+      } else {
+        navigate('/')
+      }
     }
 
-    checkAuthUser()
+
+
+    checkAuthAndNavigate()
 
   }, [])
 
