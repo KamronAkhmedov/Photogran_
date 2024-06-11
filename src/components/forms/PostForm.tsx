@@ -63,6 +63,8 @@ const PostForm = ({ post, action, postId }: PostFormProps) => {
         toast({ title: `${action} post failed. Please try again` })
       }
 
+      form.reset()
+
       return navigate(`/posts/${post.postId}`)
     }
 
@@ -77,6 +79,9 @@ const PostForm = ({ post, action, postId }: PostFormProps) => {
         title: `${action} post failed. Please try again`
       })
     }
+
+    form.reset()
+
     navigate('/')
   }
 
